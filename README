@@ -1,0 +1,37 @@
+- luaipamjm パッケージ -
+
+PXipamjm パッケージバンドル (https://github.com/zr-tex8r/PXipamjm/)
+と類似の機能を LuaTeX-ja でも実現可能にするもの．
+
+* 前提環境
+ - LuaTeX-ja
+ - IPAmj明朝フォント
+ LuaTeX-ja に依存しているのは
+ IPAmj 明朝を和文フォントとして定義するため．
+ 将来的には依存をなくすことも検討．
+
+* オプション
+ - highlight, nohighlight: pxipamjm パッケージと同じ．
+   - highlight で \MJI によって入力された文字を自動的に色付けをする．
+   - nohighlight（既定）で打ち消す．
+   - highlight 指定時には color パッケージを自動で読み込む．
+ - highlight_color=<color>: \MJI 命令による通常のグリフ出力の色を指定．
+   <color> 部分が空のときは色付けを行わない．
+ - choice_color=<color>: \MJI?[...} による一覧出力……
+ - fallback_color=<color>: \MJI 命令失敗時の……
+ - scale=<float>: 欧文フォントを 1 としたときの IPAmj 明朝のサイズ．
+   既定では luatexja-fontspec パッケージと同じ方式で決定される
+
+* 使い方
+  - \MJI について：
+    - \MJI{<IVS>} は単純に引数を IPAmj 明朝でタイプセットするのみ
+      （IVS 自体は luaotfload で面倒を見てくれるため．）
+      この書式ではハイライトされない
+    - \MJI[<異体字番号]{<既定文字>} 
+    - \MJI[?]{<基底文字>}
+    - \MJI*{<MJ番号>}
+  - pxipamjm パッケージ \MJcolor, \MJchoicecolor, \MJindexbase は
+    全く同様に使える．
+  - エラー処理はほとんどしていないに等しいです．
+  - ゲタ文字（〓）で出力されるのは，\MJI* で指定した MJ 番号が不正だった場合のみ．
+    

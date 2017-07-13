@@ -45,7 +45,7 @@
         res = res .. '\\MJlist{\\ltjjachar' .. v[2] .. '}{'
           .. (v[1]) .. '}'
       end
-      tex.sprint(cat_lp, '\\MJI@wraplist{' .. res .. '}')
+      tex.sprint(cat_lp, '\\MJI@wrapchoice{' .. res .. '}')
     else
       ivs = ivs + tex.getcount('luaipamjm@ivs@base')
       local c = luaipamjm.variants[ivs] and luaipamjm.variants[ivs][n]
@@ -74,10 +74,10 @@
 \DeclareFontShape{JT3}{mjmzm}{m}{n}{<-> s*[\fp_use:N \g_luaipamjm_scale_fp] IPAmjMincho:jfm=ujisv}{}
 
 \tl_new:N \luaipamjm_highlight_color_tl
-\tl_new:N \luaipamjm_list_color_tl
+\tl_new:N \luaipamjm_choice_color_tl
 \tl_new:N \luaipamjm_fallback_color_tl
 \tl_set:Nn \luaipamjm_highlight_color_tl {blue}
-\tl_set:Nn \luaipamjm_list_color_tl {}
+\tl_set:Nn \luaipamjm_choice_color_tl {}
 \tl_set:Nn \luaipamjm_fallback_color_tl {red}
 \bool_new:N \luaipamjm_highlight_bool
 \keys_define:nn { luaipamjm }
@@ -87,7 +87,9 @@
     nohighlight .bool_set_inverse:N = \luaipamjm_highlight_bool,
     nohighlight .default:n  = true,
     scale .fp_gset:N = \g_ltj_fontspec_scale_fp,
-    
+    highlight_color .tl_set:N = \luaipamjm_highlight_color_tl,
+    choice_color .tl_set:N = \luaipamjm_choice_color_tl,
+    fallback_color.tl_set:N = \luaipamjm_fallback_color_tl,
   }
 \ProcessKeysOptions{ luaipamjm }
 
@@ -98,9 +100,9 @@
     {\textcolor{\tl_use:N \luaipamjm_highlight_color_tl} }
   { \kanjifamily{mjmzm}\selectfont#1}
 }
-\def\MJI@wraplist#1{\leavevmode
-  \bool_if:nT {\luaipamjm_highlight_bool && !\tl_if_empty_p:N \luaipamjm_list_color_tl}
-    {\textcolor{\tl_use:N \luaipamjm_list_color_tl} }
+\def\MJI@wrapchoice#1{\leavevmode
+  \bool_if:nT {\luaipamjm_highlight_bool && !\tl_if_empty_p:N \luaipamjm_choice_color_tl}
+    {\textcolor{\tl_use:N \luaipamjm_choice_color_tl} }
   { \kanjifamily{mjmzm}\selectfont#1}
 }
 \def\MJI@wrapfallback#1{\leavevmode
@@ -108,7 +110,7 @@
     {\textcolor{\tl_use:N \luaipamjm_fallback_color_tl} } { #1 }
 }
 \def\MJcolor{\tl_set:Nn \luaipamjm_highlight_color_tl }
-\def\MJchoicecolor{\tl_set:Nn \luaipamjm_list_color_tl }
+\def\MJchoicecolor{\tl_set:Nn \luaipamjm_choice_color_tl }
 \def\MJfallbackcolor{\tl_set:Nn \luaipamjm_fallback_color_tl }
 
 \ExplSyntaxOff
